@@ -11,24 +11,27 @@ void SetupProjectionMatrices(Assignment05 *A, float Ar) {
 	
 	// Fov-y = 60 deg
 	S = glm::perspective(glm::radians(60.0f), Ar, 0.1f, 50.0f);
+	S[1][1] = S[1][1] * -1; // flips the y axis
 	A->Matrix(1, S); // sets the matrix corresponding to piece 1
 
 	// Fov-y = 105 deg
-	S = glm::perspective(glm::radians(120.0f), Ar, 0.1f, 50.0f);
+	S = glm::perspective(glm::radians(105.0f), Ar, 0.1f, 50.0f);
+	S[1][1] = S[1][1] * -1; // flips the y axis
 	A->Matrix(2, S); // sets the matrix corresponding to piece 2
 
 	// Fov-y = 25 deg
 	S = glm::perspective(glm::radians(25.0f), Ar, 0.1f, 50.0f);
+	S[1][1] = S[1][1] * -1; // flips the y axis
 	A->Matrix(3, S); // sets the matrix corresponding to piece 3
 
 	// Right View, Fov-x = 45 deg
 	float comm = n * tan(glm::radians(45.0f)/2),
-		  l = 0,
+		  l = 0.0f,
 		  r = Ar*2 * comm,
 		  b = -comm,
 		  t = comm;
 
-	S = glm::frustum(l, r, b, t, n, f);
+	S = glm::scale(glm::mat4(1), glm::vec3(1,-1,1))*glm::frustum(l, r, b, t, n, f);
 	A->Matrix(4, S); // sets the matrix corresponding to piece 4
 
 }
